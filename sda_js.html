@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Kamil's SDA - JS</title>
+<style type="text/css">
+span {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+</style>
+</head>
+
+<body bgcolor="#000000" text="#FFFFFF">
+<p><button onclick="fuckreanyway()">Kill all the re</button><button onclick="strmap1()">String manipulation...thing...</button><button onclick="killa()">Kill a</button><input type="button" value="Reload Page" onClick="window.location.reload()"><input type="button" value="vidya" onClick="vidya()"> <a href="#" onClick="getPage()">Get the contents of a page relative to this script</a><br><textarea rows="4" cols="50" id="ajax">This textarea will be used to demonstrate ajax</textarea><br><div id="videocontainer"></div></p>
+<script type="text/javascript">
+var words = ["lorem", "ipsum", "dolor", "sit", "amet", "consectetuer", "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "e​uismod", "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat", "volutpat", "ut", "wisi", "enim", "ad", "m​inim", "veniam", "quis", "nostrud", "exerci", "tation", "ullamcorper", "suscipit", "lobortis", "nisl", "ut", "ali​quip", "ex", "ea", "commodo", "consequat"];
+i = 1;
+words.forEach(function(word) {
+    document.write('<span id="word' + i + '">' + word + "</span><br>\n");
+	i++;
+});
+function changeColors() {
+	for (i = 1; i < words.length + 1; i++ ) {
+		var letters = '01A36724589BCDFE'.split('');
+    	var color = '#';
+		color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
+    	document.getElementById("word" + i).style.color = color;
+	}
+    setTimeout(changeColors, 1000);
+}
+
+function randomStyle() {
+	for (i = 1; i < words.length + 1; i++ ) {
+		var selectionnum = Math.floor((Math.random() * 4) + 1);
+		switch(selectionnum) {
+			case 1:
+				document.getElementById("word" + i).style.fontWeight="900";
+			break;
+			case 2:
+				document.getElementById("word" + i).style.fontStyle="italic";
+			break;
+			case 3:
+				document.getElementById("word" + i).style.textDecoration = "underline";
+			break;
+			case 4:
+				document.getElementById("word" + i).style.textDecoration="line-through";
+			break;
+			default:
+			break;
+		}
+	}
+	setTimeout(randomStyle, 2500);
+}
+
+function fuckreanyway() {
+	var replaced = 0;
+	for (i = 1; i < words.length + 1; i++ ) {
+		var orig = document.getElementById("word" + i).innerHTML;
+		if(/re/i.test(orig)){
+			replaced++;
+		}
+		var fixed = orig.replace(/re/i, "+");
+		document.getElementById("word" + i).innerHTML = fixed;
+	}
+	alert(replaced);
+}
+    String.prototype.count=function(s1) {   
+        return (this.length - this.replace(new RegExp(s1,"g"), '').length) / s1.length;  
+    }  
+function killa() {
+	var replaced = 0;
+	for (i = 1; i < words.length + 1; i++ ) {
+		var orig = document.getElementById("word" + i).innerHTML;
+		var results = orig.count('a');
+		replaced += results;
+		var fixed = orig.replace(/a/g, "");
+		document.getElementById("word" + i).innerHTML = fixed;
+	}
+	document.cookie = "acount=" + replaced;
+}
+function strmap1() {
+	var randelemid = "word" + Math.floor((Math.random() * words.length) + 1);
+	var origih = document.getElementById(randelemid).innerHTML;
+	if (origih.length > 3) {
+		document.getElementById(randelemid).innerHTML = origih.slice(-3) + origih.slice(0, origih.length - 3);
+	}
+}
+function killt() {
+	for (i = 1; i < words.length + 1; i++ ) {
+		var ihtml = document.getElementById("word" + i).innerHTML;
+		if(ihtml.indexOf('t') > -1) {
+			document.getElementById("word" + i).remove();
+		}
+	}
+}
+function getPage() {
+	somepage = new XMLHttpRequest();
+	somepage.onreadystatechange=function() {
+		if (somepage.readyState==4 && somepage.status==200) {
+			document.getElementById("ajax").innerHTML = somepage.responseText;
+		}
+	}
+	somepage.open("GET","ajax_test.php",true);
+	somepage.send();
+}
+function vidya() {
+	document.getElementById("videocontainer").innerHTML = '<video id="vidya" width="640" height="360"><source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4"></source></video><br><button onclick="playVidya()">Play</button><button onclick="pauseVidya()">Pause</button><button onclick="vidya30()">Go to 30 sec.</button><button onclick="vidya45()">Go to 45 sec.</button><button onclick="restartVidya()">Restart Video</button>';
+}
+function playVidya() {
+	var vidya = document.getElementById("vidya");
+	vidya.play();
+}
+function pauseVidya() {
+	var vidya = document.getElementById("vidya");
+	vidya.pause();
+}
+function vidya30() {
+	var vidya = document.getElementById("vidya");
+	vidya.currentTime = 30;
+}
+function vidya45() {
+	var vidya = document.getElementById("vidya");
+	vidya.currentTime = 45;
+}
+function restartVidya() {
+	var vidya = document.getElementById("vidya");
+	vidya.currentTime = 0;
+}
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode == 84) {
+        killt();
+    }
+};
+changeColors();
+randomStyle();
+</script>
+</body>
+</html>
